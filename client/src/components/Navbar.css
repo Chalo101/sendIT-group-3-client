@@ -1,11 +1,23 @@
 .navbar {
-  background: #729e45;
+  background: #729e45; /* Navbar background color */
+  display: flex;
+  justify-content: space-between; /* Space out left and right sections */
+  padding: 0 20px; /* Add padding to the left and right of the navbar */
+  height: 100px;;
+  
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center; /* Center items vertically */
 }
 
 .navbar ul {
   display: flex;
   list-style: none;
   font-weight: bold;
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
 }
 
 .navbar ul li {
@@ -16,13 +28,14 @@
 
 .navbar ul li a {
   text-decoration: none;
-  color: inherit; /* Adjust this to match your design */
+  color: inherit; /* Use original text color */
 }
 
 .navbar ul li a.active {
   font-weight: bold;
   /* Add any additional styling for active links */
 }
+
 .sendit,
 .it {
   font-style: italic;
@@ -31,16 +44,11 @@
 }
 
 .sendit {
-  color: #fff;
+  color: #fff; /* Original color for 'Send' */
 }
 
 .it {
-  color: #65558f;
-}
-
-.links,
-.loginsignup {
-  font-size: 14pt;
+  color: #65558f; /* Original color for 'it' */
 }
 
 .links {
@@ -48,8 +56,30 @@
   left: 5vw;
   padding-left: 18px;
 }
+
 .loginsignup {
-  position: relative;
-  right: -20vw;
-  padding: 15px;
+  font-size: 17pt; /* Original font size for login/signup */
+  margin-left: 50px; /* Space between dropdowns */
+  color: #fff; /* Original color for dropdown text */
+  font-weight: 500;
+}
+
+/* Dropdown Styles */
+.navbar .dropdown-menu {
+  background-color: #729e45; /* Background color for dropdown */
+  border: none; /* Remove border for a cleaner look */
+}
+
+.navbar .dropdown-item {
+  color: #fff; /* Text color for dropdown items */
+}
+
+.navbar .dropdown-item:hover {
+  background-color: #65558f; /* Hover background color for dropdown items */
+  color: #fff; /* Ensure text color remains white on hover */
+}
+
+.navbar-right {
+  margin-right: 40px;
+  display : flex;
 }

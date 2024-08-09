@@ -10,7 +10,7 @@ function ErrorPage() {
         Sorry, the page you are looking for might have been removed, had its name
         changed, or is temporarily unavailable.
       </p>
-      <Link to="/">
+      <Link to="/Homepage">
         <button className="home-button">GO TO HOMEPAGE</button>
       </Link>
     </div>

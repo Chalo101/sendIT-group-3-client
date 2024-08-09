@@ -1,5 +1,7 @@
-import React, { useState } from "react";
-import './LoginAdmin.css';  
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from './AuthContext';
+import './LoginAdmin.css';
 
 const AdminLogin = () => {
   const [formData, setFormData] = useState({
@@ -8,6 +10,8 @@ const AdminLogin = () => {
   });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const navigate = useNavigate();
+  const { login } = useAuth(); // Use Auth context
 
   const handleChange = (e) => {
     setFormData({
@@ -22,6 +26,7 @@ const AdminLogin = () => {
     setSuccess('');
 
     try {
+      // Make API request to login
       const response = await fetch('http://127.0.0.1:5000/admin/login', {
         method: 'POST',
         headers: {
@@ -30,16 +35,22 @@ const AdminLogin = () => {
         body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
-      if (response.ok) {
-        localStorage.setItem('access_token', data.access_token);
-        setSuccess('Login successful!');
-        // Redirect to admin dashboard or perform other actions
-      } else {
-        setError(data.message || 'An error occurred');
+      if (!response.ok) {
+        // Handle errors
+        const errorData = await response.json();
+        setError(errorData.message || 'An error occurred');
+        return;
       }
+
+      // Handle success
+      const data = await response.json();
+      login({ token: data.access_token, role: 'admin' }); // Set user in context and local storage
+      setSuccess('Login successful!');
+      navigate('/allorders'); // Redirect to the All Orders page
+
     } catch (err) {
-      setError('An error occurred while logging in.');
+      setError('An unexpected error occurred');
+      console.error(err);
     }
   };
 

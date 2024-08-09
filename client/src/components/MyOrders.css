@@ -1,13 +1,14 @@
 .myorderscard {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
   border: 1px solid black;
-  width: 30%;
-  height: 50%;
+  width: 30vw;
+  height: 70vh;
   padding: 10px 5px;
   position: relative;
   top: 5vh;
   left: 2%;
+  margin: 10px;
 }
 
 .myorderscard span {

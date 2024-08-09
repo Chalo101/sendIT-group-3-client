@@ -3,8 +3,8 @@ import './SignupUser.css';
 
 const SignupUser = () => {
     const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
+        first_name: '',
+        last_name: '',
         email: '',
         password: ''
     });
@@ -37,8 +37,8 @@ const SignupUser = () => {
                 setSuccess('User registered successfully!');
                 // Reset form fields after successful registration
                 setFormData({
-                    firstName: '',
-                    lastName: '',
+                    first_name: '',
+                    last_name: '',
                     email: '',
                     password: ''
                 });
@@ -57,23 +57,23 @@ const SignupUser = () => {
             {success && <p className="success">{success}</p>}
             <form className="signup-form" onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label htmlFor="firstName">First Name</label>
+                    <label htmlFor="first_name">First Name</label>
                     <input
                         type="text"
-                        id="firstName"
-                        name="firstName"
-                        value={formData.firstName}
+                        id="first_name"
+                        name="first_name"
+                        value={formData.first_name}
                         onChange={handleChange}
                         required
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="lastName">Last Name</label>
+                    <label htmlFor="last_name">Last Name</label>
                     <input
                         type="text"
-                        id="lastName"
-                        name="lastName"
-                        value={formData.lastName}
+                        id="last_name"
+                        name="last_name"
+                        value={formData.last_name}
                         onChange={handleChange}
                         required
                     />

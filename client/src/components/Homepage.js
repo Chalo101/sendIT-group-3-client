@@ -1,6 +1,6 @@
 import React from "react";
 import "./Homepage.css";
-/* import deliveryMan from "../assets/delivery_man.png"; */
+import deliveryMan from "../assets/delivery_man.png";
 
 function Homepage() {
   return (
@@ -11,7 +11,7 @@ function Homepage() {
         <button className="primary-button">Send a Parcel</button>
       </div>
       <div className="image-container">
-        {/* <img src={deliveryMan} alt="Delivery Man" /> */}
+        <img src={deliveryMan} alt="Delivery Man" />
       </div>
     </div>
   );
