@@ -9,7 +9,7 @@ import { LineString as OLLineString } from "ol/geom";
 import { Feature } from "ol";
 import VectorSource from "ol/source/Vector";
 import VectorLayer from "ol/layer/Vector";
-import { Circle as CircleGeom } from "ol/geom"; // Ensure Circle is imported correctly
+import { Point as PointGeom } from "ol/geom"; // Use PointGeom for accurate marker placement
 import "ol/ol.css";
 import axios from "axios";
 import { haversineDistance } from "./utils";
@@ -44,7 +44,6 @@ const NewOrder = () => {
     });
     setMap(initialMap);
 
-    // Clean up function to avoid multiple map instances
     return () => {
       initialMap.setTarget(null);
     };
@@ -59,28 +58,18 @@ const NewOrder = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
 
-    const response = await fetch("http://127.0.0.1:5000/myorders", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
-
-    if (response.ok) {
-      console.log("Order created successfully");
-      setResponseMessage("Order created successfully");
-    } else {
-      console.error("Failed to create order");
+    try {
+      const response = await axios.post("http://127.0.0.1:5000/parcels", formData);
+      setResponseMessage(response.status === 201 ? "Order created successfully" : "Failed to create order");
+    } catch (error) {
+      console.error("Error creating order:", error);
       setResponseMessage("Failed to create order");
     }
   };
 
   const handleSearch = async () => {
     const destination = formData.destination;
-    console.log("Searching for destination:", destination);
 
     try {
       const response = await axios.get(
@@ -89,20 +78,17 @@ const NewOrder = () => {
       if (response.data.length > 0) {
         const place = response.data[0];
         const coordinates = [parseFloat(place.lon), parseFloat(place.lat)];
-        console.log("Setting map view to coordinates:", coordinates);
 
         if (map) {
           map.getView().setCenter(fromLonLat(coordinates));
-          map.getView().setZoom(10); // Adjust zoom level as needed
+          map.getView().setZoom(10);
 
-          // Clear existing layers
           map.getLayers().forEach((layer) => {
             if (layer instanceof VectorLayer) {
               map.removeLayer(layer);
             }
           });
 
-          // Create the feature for the line
           const lineFeature = new Feature({
             geometry: new OLLineString([
               fromLonLat([36.8219, -1.2921]),
@@ -110,7 +96,6 @@ const NewOrder = () => {
             ]),
           });
 
-          // Create the line style
           const lineStyle = new Style({
             stroke: new Stroke({
               color: "#4B0082", // Darker purple for the line
@@ -118,7 +103,6 @@ const NewOrder = () => {
             }),
           });
 
-          // Apply the line style
           lineFeature.setStyle(lineStyle);
 
           const vectorSource = new VectorSource({
@@ -132,32 +116,23 @@ const NewOrder = () => {
           map.addLayer(vectorLayer);
 
           const originMarker = new Feature({
-            geometry: new CircleGeom(fromLonLat([36.8219, -1.2921]), 5000), // Adjust radius if needed
+            geometry: new PointGeom(fromLonLat([36.8219, -1.2921])),
           });
 
           const destinationMarker = new Feature({
-            geometry: new CircleGeom(fromLonLat(coordinates), 5000), // Adjust radius if needed
+            geometry: new PointGeom(fromLonLat(coordinates)),
           });
 
-          originMarker.setStyle(
-            new Style({
-              image: new CircleStyle({
-                radius: 12, // Adjust marker size
-                fill: new Fill({ color: "#7F00FF" }), // Purple
-                stroke: new Stroke({ color: "#000000", width: 2 }),
-              }),
-            })
-          );
+          const markerStyle = new Style({
+            image: new CircleStyle({
+              radius: 6, // This will be half the size of 12
+              fill: new Fill({ color: "#7F00FF" }), // Purple
+              stroke: new Stroke({ color: "#000000", width: 2 }),
+            }),
+          });
 
-          destinationMarker.setStyle(
-            new Style({
-              image: new CircleStyle({
-                radius: 12, // Adjust marker size
-                fill: new Fill({ color: "#7F00FF" }), // Purple
-                stroke: new Stroke({ color: "#000000", width: 2 }),
-              }),
-            })
-          );
+          originMarker.setStyle(markerStyle);
+          destinationMarker.setStyle(markerStyle);
 
           const markerSource = new VectorSource({
             features: [originMarker, destinationMarker],
@@ -185,9 +160,9 @@ const NewOrder = () => {
   };
 
   const calculatePrice = (weight, distance) => {
-    const basePrice = 500; // Base price in KES
-    const weightCost = weight * 100; // 100 KES per kg
-    const distanceCost = distance * 50; // 50 KES per km
+    const basePrice = 500;
+    const weightCost = weight * 100;
+    const distanceCost = distance * 50;
     return basePrice + weightCost + distanceCost;
   };
 
