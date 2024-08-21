@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/sendIT-group-3-project/static/css/main.da4c95ee.css",
+    "main.js": "/sendIT-group-3-project/static/js/main.54b50814.js",
+    "static/js/453.419a5d54.chunk.js": "/sendIT-group-3-project/static/js/453.419a5d54.chunk.js",
+    "static/media/delivery_man.png": "/sendIT-group-3-project/static/media/delivery_man.37d96be656f1466566dd.png",
+    "index.html": "/sendIT-group-3-project/index.html",
+    "main.da4c95ee.css.map": "/sendIT-group-3-project/static/css/main.da4c95ee.css.map",
+    "main.54b50814.js.map": "/sendIT-group-3-project/static/js/main.54b50814.js.map",
+    "453.419a5d54.chunk.js.map": "/sendIT-group-3-project/static/js/453.419a5d54.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.da4c95ee.css",
+    "static/js/main.54b50814.js"
+  ]
+}
